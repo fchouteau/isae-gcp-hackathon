@@ -18,7 +18,36 @@ Deux docker sont fournis (ce sont les mêmes que durant le BE) pour vos tests de
 
 ### Docker Compose pour des tests locaux
 
-...
+https://docs.docker.com/compose/
+
+Docker-compose est un utilitaire qui permet de déployer (localement) plusieurs containers dockers et de les faire communiquer entre eux.
+
+Normalement, à ce stade vous avez deux images docker correspondant à l'application streamlit et au modèle.
+
+Editez le fichier `docker-compose.yml` en éditant les noms des images dockers
+
+```yaml
+version: '3'
+services:
+  yolo:
+    image: "IMAGE DOCKER YOLO"
+    ports:
+      - "8000:8000"
+    hostname: yolo
+  streamlit:
+    image: "IMAGE DOCKER STREAMLIT"
+    ports:
+      - "8501:8501"
+    hostname: streamlit
+```
+
+Ensuite pour lancer les deux docker simultanément, `docker-compose up`
+
+Les containers sont accessibles depuis les deux ports (8000 et 8501), vous pouvez vous rendre sur `http://localhost:8501` pour accéder à streamlit
+
+POur effectuer les tests, l'ip du cluster à rentrer dans streamlit est `http://yolo:8000` et non pas `localhost:8000` car depuis un container, les autres containers sont accessibles via leur `hostname` (comme une URL)
+
+Pour supprimer les containers ensuite, `docker-compose down` 
 
 ### Déploiement (Kubernetes)
 

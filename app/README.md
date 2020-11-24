@@ -38,6 +38,20 @@ Ensuite vous pouvez lancer le notebook tests pour vérifier que tout marche
 
 Ensuite vous pouvez passer à l'étape suivante
 
+### Construire le docker
+
+```bash
+docker build -t eu.gcr.io/{your registry}/{your app name}:{your version} -f Dockerfile . 
+```
+
+### Tester le docker
+
+Au lieu de faire `uvicorn`, vous pouvez lancer le docker localement et le tester de la même façon avec le notebook
+
+```bash
+docker run --rm -p 8000:8000 eu.gcr.io/{your registry}/{your app name}:{your version}
+```
+
 ## Liens Utiles
 
 https://fastapi.tiangolo.com/

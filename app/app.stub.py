@@ -29,9 +29,11 @@ class Result(BaseModel):
     time: float = 0.0
     model: str
 
+
 # !!!! FILL ME
 def parse_predictions(prediction: np.ndarray, classes: [str]) -> List[Detection]:
     raise NotImplementedError
+
 
 # !!!! FILL ME
 def load_model(model_name: str):
