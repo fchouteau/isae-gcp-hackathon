@@ -30,18 +30,71 @@ On se propose ici de wrapper 3 versions du modèle (S,M,L) qui sont 3 versions +
 
 ## Détails
 
+### Remplir l'application
+
+Il y a deux fonctions à compléter en s'inspirant du notebook `inference.ipynb`. Grace au typage de python, vous avez les types d'entrée et de sortie des deux fonctions
+
+La première prend un tableau de type (left, top, right, bottom, confidence, class_index) et une liste de noms de classes et créée une liste d'objets `Detection` (voir le code pour la création des objets détection)
+
+La seconde fonction doit charger un modèle via torchhub en fonction de son nom (voir le docker)
+
+```python
+# !!!! FILL ME
+def parse_predictions(predictions: np.ndarray, classes: [str]) -> List[Detection]:
+    raise NotImplementedError
+
+
+# !!!! FILL ME
+def load_model(model_name: str):
+    """"""
+    raise NotImplementedError
+```
+
+Ensuite, vous pouvez executer les fonctions de chargement de modèle, par exemple
+
+```python
+# !!!! FILL ME
+# This is a dictionnary that must contains a model for each key (model names), fill load model
+# example: for model_name in MODEL_NAMES: MODELS[model_name] = load_model(model_name)
+# You can also lazily load models only when they are called to avoid holding 3 models in memory
+MODELS = {}
+for model_name in MODEL_NAMES:
+    MODELS[model_name] = load_model(model_name)
+```
+
+Enfin, il s'agit d'écrire un code qui effectue une prédiction à partir d'une image PIL et de mesurer le temps
+(indice: `import time` et `t0 = time.time()` ...) de prédiction
+
+```python
+# RUN THE PREDICTION, TIME IT
+predictions = ...
+# Post processing
+classes = predictions.names
+predictions = predictions.xyxy[0].numpy()
+```
+
+Le résultat de predictions est un tableau numpy composé des colonnes `left, top, right, bottom, confidence, class_index`
+
+Il s'agit ensuite de transformer ces predictions en `[Detection]`
+
+```python
+# Create a list of [DETECTIONS] objects that match the detection class above, using the parse_predictions method
+detections = parse_predictions(predictions, classes)
+```
+
 ### Tester son application
 
 Dans un terminal, vous pouvez faire `uvicorn app:app --reload` pour lancer la webbapp FastAPI qui sert le modèle,
 
-Ensuite vous pouvez lancer le notebook tests pour vérifier que tout marche
+Ensuite vous pouvez lancer le notebook tests pour vérifier que tout fonctionne correctement
 
 Ensuite vous pouvez passer à l'étape suivante
 
 ### Construire le docker
 
 ```bash
-docker build -t eu.gcr.io/{your registry}/{your app name}:{your version} -f Dockerfile . 
+PROJECT_ID=$(gcloud config get-value project 2> /dev/null)
+docker build -t eu.gcr.io/${PROJECT_ID}/{your app name}:{your version} -f Dockerfile . 
 ```
 
 ### Tester le docker
@@ -49,8 +102,18 @@ docker build -t eu.gcr.io/{your registry}/{your app name}:{your version} -f Dock
 Au lieu de faire `uvicorn`, vous pouvez lancer le docker localement et le tester de la même façon avec le notebook
 
 ```bash
-docker run --rm -p 8000:8000 eu.gcr.io/{your registry}/{your app name}:{your version}
+PROJECT_ID=$(gcloud config get-value project 2> /dev/null)
+docker run --rm -p 8000:8000 eu.gcr.io/${PROJECT_ID}/{your app name}:{your version}
 ```
+
+### Pusher le docker sur google container registry
+
+```bash
+gcloud auth configure-docker
+docker push eu.gcr.io/${PROJECT_ID}/{your app name}:{your version}
+```
+
+Si vous devez mettre à jour le docker, il faut incrémenter la version pour le déploiement
 
 ## Liens Utiles
 
