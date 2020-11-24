@@ -55,13 +55,15 @@ gcloud compute instances create $INSTANCE_NAME \
 
 ### Connection SSH
 
-On se connecte en tant que **jupyter** (important pour l'accès au jupyterlab inclu)
+On se connecte en tant que **jupyter** (important pour l'accès au jupyterlab inclu) en mappant des ports
+
+Vous aurez besoin des ports 8080 (jupyterlab), 8000 (fastapi) et 8501 (streamlit)
 
 [C'est par là](https://supaerodatascience.github.io/OBD/2_data_computation/site/exercises/4_be.html#3-connect-using-ssh-to-the-instance)
 
 ```bash
 gcloud compute ssh jupyter@{instance} -- \
-    -L 80:localhost:80 \
+    -L 8080:localhost:8080 \
     -L 8000:localhost:8000 \
     -L 8501:localhost:8501
 ```
