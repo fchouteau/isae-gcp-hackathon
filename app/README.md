@@ -4,9 +4,23 @@
 
 Packager un modèle de machine learning derrière une webapplication pour pouvoir la déployer sur le web et servir des prédictions à des utilisateurs
 
+Le modèle: Un détecteur d'objets sur des photographies "standard" supposé marcher en temps réel, qui sort des "bounding boxes" autour des objets détecté dans des images
+
+![image](cats_yolo.png)
+ 
+Le papier vaut la lecture
+
+https://pjreddie.com/media/files/papers/YOLOv3.pdf
+
+On récupère la version disponible sur torchhub https://pytorch.org/hub/ultralytics_yolov5/ qui correspond à ceci https://github.com/ultralytics/yolov5
+
+Voici une petite explication de l'historique https://medium.com/towards-artificial-intelligence/yolo-v5-is-here-custom-object-detection-tutorial-with-yolo-v5-12666ee1774e
+
+On se propose ici de wrapper 3 versions du modèle (S,M,L) qui sont 3 versions +/- complexes du modèle YOLO-V5, afin de pouvoir comparer les performances et les résultats
+
 ## Déroulement
 
-- Transformer un notebook de prédiction en “WebApp” en remplissant `app.stub.py`
+- Transformer un notebook de prédiction en “WebApp” en remplissant `app.stub.py` et en le renommant en `app.py`
 - Tester sa webapp localement
 - Packager l'application sous forme d'une image docker
 - Tester son image docker localement
@@ -16,7 +30,7 @@ Packager un modèle de machine learning derrière une webapplication pour pouvoi
 
 ### Tester son application
 
-Dans un terminal, vous pouvez faire `uvicon app:app --reload` pour lancer la webbapp FastAPI qui sert le modèle,
+Dans un terminal, vous pouvez faire `uvicorn app:app --reload` pour lancer la webbapp FastAPI qui sert le modèle,
 
 Ensuite vous pouvez lancer le notebook tests pour vérifier que tout marche
 
