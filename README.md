@@ -68,6 +68,10 @@ gcloud compute ssh jupyter@{instance} -- \
     -L 8501:localhost:8501
 ```
 
+Ensuite vous pouvez vous rendre sur http://localhost:8080 et vous avez normalement accès à l'interface de jupyterlab avec un éditeur de fichiers et jupyter
+
+Vous pouvez récupérer les fichiers en faisant `git clone https://github.com/fchouteau/isae-gcp-hackathon`
+
 ## Liens utiles
 
 https://testdriven.io/blog/fastapi-streamlit/
