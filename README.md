@@ -15,20 +15,19 @@ Comment les équipes communiquent-elles ?
 
 ## Yolo-V5
 
-![deploy](meme_with_detections.jpg)
-
 Le modèle: Un détecteur d'objets sur des photographies "standard" supposé marcher en temps réel, qui sort des "bounding boxes" autour des objets détecté dans des images
 
- 
-Le papier vaut la lecture
+![deploy](meme_with_detections.jpg)
 
-https://pjreddie.com/media/files/papers/YOLOv3.pdf
+Le papier vaut la lecture: https://pjreddie.com/media/files/papers/YOLOv3.pdf
 
 On récupère la version disponible sur torchhub https://pytorch.org/hub/ultralytics_yolov5/ qui correspond à ceci https://github.com/ultralytics/yolov5
 
-Voici une petite explication de l'historique https://medium.com/towards-artificial-intelligence/yolo-v5-is-here-custom-object-detection-tutorial-with-yolo-v5-12666ee1774e
+Voici une petite explication de l'historique de YOLO https://medium.com/towards-artificial-intelligence/yolo-v5-is-here-custom-object-detection-tutorial-with-yolo-v5-12666ee1774e
 
 On se propose ici de wrapper 3 versions du modèle (S,M,L) qui sont 3 versions +/- complexes du modèle YOLO-V5, afin de pouvoir comparer les performances et les résultats
+
+![models](https://user-images.githubusercontent.com/26833433/97808084-edfcb100-1c64-11eb-83eb-ffed43a0859f.png)
 
 ## Planning
 

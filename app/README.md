@@ -18,6 +18,8 @@ Voici une petite explication de l'historique https://medium.com/towards-artifici
 
 On se propose ici de wrapper 3 versions du modèle (S,M,L) qui sont 3 versions +/- complexes du modèle YOLO-V5, afin de pouvoir comparer les performances et les résultats
 
+![models](https://user-images.githubusercontent.com/26833433/97808084-edfcb100-1c64-11eb-83eb-ffed43a0859f.png)
+
 ## Déroulement
 
 - Transformer un notebook de prédiction en “WebApp” en remplissant `app.stub.py` et en le renommant en `app.py`
