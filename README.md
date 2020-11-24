@@ -73,3 +73,5 @@ gcloud compute ssh jupyter@{instance} -- \
 https://testdriven.io/blog/fastapi-streamlit/
 
 https://docs.streamlit.io/en/stable/getting_started.html
+
+https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app

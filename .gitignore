@@ -4,8 +4,12 @@
 
 __pycache__
 *.pyc
+*.pt
 .pytest_cache
+
 
 streamlit/app.py
 app/app.py
 pyproject.toml
+
+
