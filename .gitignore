@@ -1,0 +1,11 @@
+.idea
+.vscode
+.ipynb_checkpoints
+
+__pycache__
+*.pyc
+.pytest_cache
+
+streamlit/app.py
+app/app.py
+pyproject.toml

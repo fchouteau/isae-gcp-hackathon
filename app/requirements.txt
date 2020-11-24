@@ -1,0 +1,23 @@
+# Deep Learning Requirements
+torch>=1.7.0
+torchvision
+
+# FastAPI Requirements
+fastapi
+pydantic
+python-multipart
+uvicorn
+
+# Yolo-v5 Requirements
+Cython
+Pillow
+PyYAML
+fastapi
+matplotlib
+numpy
+opencv-python-headless
+pillow
+scipy
+tqdm
+
+# Your requirements
