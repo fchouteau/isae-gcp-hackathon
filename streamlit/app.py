@@ -1,8 +1,9 @@
 import base64
 import io
 import random
-from typing import List
 from pathlib import Path
+from typing import List
+
 import matplotlib.pyplot as plt
 import numpy as np
 import requests
@@ -10,7 +11,6 @@ import streamlit as st
 from PIL import Image
 from PIL import ImageDraw, ImageFont
 from pydantic import BaseModel
-
 
 # ---- Functions ---
 
@@ -123,7 +123,6 @@ def draw_preds(image: Image, detections: [Detection]):
         left = max(0, np.floor(left + 0.5).astype("int32"))
         bottom = min(image_with_preds.size[1], np.floor(bottom + 0.5).astype("int32"))
         right = min(image_with_preds.size[0], np.floor(right + 0.5).astype("int32"))
-        print(label, (left, top), (right, bottom))
 
         if top - label_size[1] >= 0:
             text_origin = np.array([left, top - label_size[1]])
@@ -134,7 +133,13 @@ def draw_preds(image: Image, detections: [Detection]):
         for r in range(thickness):
             draw.rectangle([left + r, top + r, right - r, bottom - r], outline=tuple(colors[class_idx]))
         draw.rectangle([tuple(text_origin), tuple(text_origin + label_size)], fill=tuple(colors[class_idx]))
-        draw.text(text_origin, label, fill=(0, 0, 0), font=font)
+
+        if any(colors[class_idx] > 128):
+            fill = (0, 0, 0)
+        else:
+            fill = (255, 255, 255)
+
+        draw.text(text_origin, label, fill=fill, font=font)
 
         del draw
 
@@ -145,48 +150,59 @@ def draw_preds(image: Image, detections: [Detection]):
 
 st.title("Yolo v5 Companion App")
 
-st.markdown("A super nice companion application to send requests and parse results\n"
-            "We wrap https://pytorch.org/hub/ultralytics_yolov5/")
+st.markdown(
+    "A super nice companion application to send requests and parse results\n"
+    "We wrap https://pytorch.org/hub/ultralytics_yolov5/"
+)
 
-# --- Sidebar ---
-# defines an h1 header
+# ---- Sidebar ----
+
+test_mode_on = st.sidebar.checkbox(label="Test Mode - Generate dummy answer", value=False)
 
 st.sidebar.markdown("Enter the cluster URL")
-
 model_url = st.sidebar.text_input(label="Cluster URL", value="http://localhost:8000")
 
 _model_url = model_url.strip("/")
 
 if st.sidebar.button("Send 'is alive' to IP"):
     try:
-        response = requests.get("{}/health".format(_model_url))
-        if response.status_code == 200:
+        health = requests.get("{}/health".format(_model_url))
+        title = requests.get("{}/".format(_model_url))
+        version = requests.get("{}/version".format(_model_url))
+        describe = requests.get("{}/describe".format(_model_url))
+
+        if health.status_code == 200:
             st.sidebar.success("Webapp responding at {}".format(_model_url))
+            st.sidebar.json({"title": title.text, "version": version.text, "description": describe.text})
         else:
             st.sidebar.error("Webapp not respond at {}, check url".format(_model_url))
     except ConnectionError:
         st.sidebar.error("Webapp not respond at {}, check url".format(_model_url))
 
-test_mode_on = st.sidebar.checkbox(label="Test Mode - Generate dummy answer", value=False)
 
-# --- Main window
+# ---- Main window ----
 
 st.markdown("## Inputs")
 st.markdown("Select your model (Small, Medium or Large)")
 
+# Data input
 model_name = st.radio(label="Model Name", options=["yolov5s", "yolov5m", "yolov5l"])
 
 st.markdown("Upload an image")
 
 image_file = st.file_uploader(label="Image File", type=["png", "jpg", "tif"])
 
+confidence_threshold = st.slider(label="Confidence filter", min_value=0.0, max_value=1.0, value=0.0, step=0.05)
+
+# UploadFile to PIL Image
 if image_file is not None:
     image_file.seek(0)
     image = image_file.read()
     image = Image.open(io.BytesIO(image))
 
-st.markdown("Send the payload to the target IP")
+st.markdown("Send the payload to {}/predict".format(_model_url))
 
+# Send payload
 if st.button(label="SEND PAYLOAD"):
     if test_mode_on:
         st.warning("Simulating a dummy request to {}".format(model_url))
@@ -196,12 +212,15 @@ if st.button(label="SEND PAYLOAD"):
 
     st.balloons()
 
+    # Display results
     st.markdown("## Display")
 
     st.text("Model : {}".format(result.model))
     st.text("Processing time : {}s".format(result.time))
 
-    image_with_preds = draw_preds(image, result.detections)
+    detections = [detection for detection in result.detections if detection.confidence > confidence_threshold]
+
+    image_with_preds = draw_preds(image, detections)
     st.image(image_with_preds, width=1024, caption="Image with detections")
 
     st.markdown("### Detection dump")

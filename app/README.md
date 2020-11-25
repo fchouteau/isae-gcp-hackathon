@@ -28,9 +28,7 @@ On se propose ici de wrapper 3 versions du modèle (S,M,L) qui sont 3 versions +
 - Tester son image docker localement
 - Uploader le docker sur Google Container Registry
 
-## Détails
-
-### Remplir l'application
+## Développement de app.py
 
 Il y a deux fonctions à compléter en s'inspirant du notebook `inference.ipynb`. Grace au typage de python, vous avez les types d'entrée et de sortie des deux fonctions
 
@@ -82,7 +80,7 @@ Il s'agit ensuite de transformer ces predictions en `[Detection]`
 detections = parse_predictions(predictions, classes)
 ```
 
-### Tester son application
+## Tester son application
 
 Dans un terminal, vous pouvez faire `uvicorn app:app --reload` pour lancer la webbapp FastAPI qui sert le modèle,
 
@@ -90,7 +88,7 @@ Ensuite vous pouvez lancer le notebook tests pour vérifier que tout fonctionne 
 
 Ensuite vous pouvez passer à l'étape suivante
 
-### Construire le docker
+## Construire le docker
 
 ```bash
 PROJECT_ID=$(gcloud config get-value project 2> /dev/null)

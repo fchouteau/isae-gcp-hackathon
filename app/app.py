@@ -60,7 +60,7 @@ app = FastAPI(
     description="""
                 Wraps 3 different yolo-v5 models under the same RESTful API
                 """,
-    version="1.0",
+    version="1.1",
 )
 
 # %%
@@ -76,6 +76,11 @@ def root() -> str:
 @app.get("/describe", description="return the description", response_description="description", response_model=str)
 def describe() -> str:
     return app.description
+
+
+@app.get("/version", description="return the version", response_description="version", response_model=str)
+def describe() -> str:
+    return app.version
 
 
 @app.get("/health", description="return whether it's alive", response_description="alive", response_model=str)

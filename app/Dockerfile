@@ -8,9 +8,10 @@ RUN pip install -r /tmp/requirements.txt
 WORKDIR /app/
 ENV TORCH_HOME="/app/"
 
-COPY app.py /app/
 COPY preload.py /app/
 RUN python /app/preload.py
+
+COPY app.py /app/
 
 EXPOSE 8000
 

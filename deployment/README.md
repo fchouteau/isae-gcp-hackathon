@@ -8,15 +8,9 @@ Déployer de façon "scalable" sur google cloud platform les deux applications, 
 
 - S'assurer que les deux images fastapi et streamlit ont été poussées sur le container registry
 - Tester localement (via docker compose, en mettant à jour `docker-compose.yml`) les deux images docker et vérifier qu'elles communiquent bien
-- Déployer les deux applications sur cloud run
+- Déployer les deux applications sur cloud run / gke
 
-## Détails
-
-### Déploiement "Dummys"
-
-Deux docker sont fournis (ce sont les mêmes que durant le BE) pour vos tests de déploiement, vous pouvez les build `build_dummy.sh` (en changeant les tags des images pour correspondre à vos projets GCP), les push sur google container registry et les utiliser comme cas de tests pour le déploiement
-
-### Docker Compose pour des tests locaux
+## Docker Compose pour des tests locaux
 
 https://docs.docker.com/compose/
 
@@ -49,7 +43,7 @@ POur effectuer les tests, l'ip du cluster à rentrer dans streamlit est `http://
 
 Pour supprimer les containers ensuite, `docker-compose down` 
 
-### Déploiement (Kubernetes)
+## Déploiement sur Google Kubernetes Engine
 
 Rappels de concepts:
 https://fchouteau.github.io/isae-cloud-computing-class/2_data_computation/site/lectures/5_orchestration.html#/5
