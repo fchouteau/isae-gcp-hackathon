@@ -8,7 +8,7 @@ Déployer de façon "scalable" sur google cloud platform les deux applications, 
 
 - S'assurer que les deux images fastapi et streamlit ont été poussées sur le container registry
 - Tester localement (via docker compose, en mettant à jour `docker-compose.yml`) les deux images docker et vérifier qu'elles communiquent bien
-- Déployer les deux applications sur cloud run / gke
+- Déployer les deux applications sur Google Kubernetes Engine
 
 ## Docker Compose pour des tests locaux
 
@@ -82,9 +82,6 @@ Faites cette manipulation pour les deux applications, puis donnez les deux URLs 
 
 Docker Compose (tests locaux)
 https://docs.docker.com/compose/
-
-Google Cloud Run (serverless managed) - Easier to deploy, harder to control
-https://cloud.google.com/run/docs/quickstarts/prebuilt-deploy
 
 Google Kubernetes Engine (managed kubernetes)
 https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app
